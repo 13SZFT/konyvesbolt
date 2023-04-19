@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="hu">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../../css/stilus.css" />
+        <title>Módosítás</title>
+    </head>
+    <body>
+        <nav>
+            <li><a href="/">NyitóLap</a></li>
+        </nav>
+        <div class="urlap-container">
+            <form enctype="multipart/form-data" id="urlap">
+                <input
+                    type="hidden"
+                    name="bookId"
+                    id="bookId"
+                    value="<%= book._id %>"
+                />
+                <label for="author">Szerző: </label>
+                <input
+                    type="text"
+                    id="author"
+                    name="author"
+                    value="<%= book.author %>"
+                /><br />
+                <label for="title">Cím: </label>
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    value="<%= book.title %>"
+                /><br />
+                <label for="price">Ár: </label>
+                <input
+                    type="number"
+                    id="price"
+                    name="price"
+                    value="<%= book.price %>"
+                /><br />
+                <label for="image">Kép: </label>
+                <input type="file" id="image" name="image" /><br />
+                <input
+                    type="hidden"
+                    id="imageOrigin"
+                    name="imageOrigin"
+                    value="<%= book.image %>"
+                /><br />
+                <button onclick="feltolt(event)">Elküld</button>
+            </form>
+        </div>
+        <footer>
+            <p>Copyright &copy; 2023</p>
+        </footer>
+        <script>
+            function feltolt(event) {
+                event.preventDefault();
+
+                // let urlap = document.getElementById('urlap');
+                const formData = new FormData();
+                formData.append(
+                    'bookId',
+                    document.getElementById('bookId').value
+                );
+                formData.append(
+                    'author',
+                    document.getElementById('author').value
+                );
+                formData.append(
+                    'title',
+                    document.getElementById('title').value
+                );
+                formData.append(
+                    'price',
+                    document.getElementById('price').value
+                );
+                formData.append(
+                    'image',
+                    document.getElementById('image').files[0]
+                );
+                formData.append(
+                    'imageOrigin',
+                    document.getElementById('imageOrigin').value
+                );
+
+                const elkuld = async () => {
+                    try {
+                        const response = await fetch('/form/modosit', {
+                            method: 'PUT',
+                            // body: new FormData(urlap),
+                            body: formData,
+                        });
+
+                        const res = await response.json();
+
+                        if (response.ok) {
+                            console.log(res.msg);
+                            window.location.href = 'http://localhost:3500';
+                        } else {
+                            console.log(res.msg);
+                        }
+                    } catch (error) {
+                        console.log(error.message);
+                    }
+                };
+
+                elkuld();
+            }
+        </script>
+    </body>
+</html>

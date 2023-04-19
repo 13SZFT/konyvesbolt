@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="hu">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./css/stilus.css" />
+        <title>Könyvesbolt</title>
+    </head>
+    <body>
+        <nav>
+            <li><a href="/">NyitóLap</a></li>
+            <li><a href="/form">Feltölt</a></li>
+        </nav>
+        <div id="books-container">
+            <% books.forEach(element => { %>
+            <div class="book-container">
+                <h1><%= element.author %></h1>
+                <h4><%= element.title %></h4>
+                <p><%= element.price %> Ft</p>
+                <a href="/book/<%= element._id %>"
+                    ><img src="<%= element.image %>" alt="kép"
+                /></a>
+            </div>
+            <% }) %>
+        </div>
+        <footer>
+            <p>Copyright &copy; 2023</p>
+        </footer>
+    </body>
+</html>
